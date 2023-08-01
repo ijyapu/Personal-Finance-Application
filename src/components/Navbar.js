@@ -1,48 +1,50 @@
-import React, {useState} from 'react'
-import * as FaIcons from "react-icons/fa";
-import * as AiIcons from "react-icons/ai";
+import React, { useState, useEffect } from 'react';
 import { Link } from 'react-router-dom';
 import { SidebarData } from './SidebarData';
-import '../styles/Navbar.css'
-import {IconContext, Icontext} from "react-icons"
+import * as FaIcons from 'react-icons/fa';
+import '../styles/Navbar.css';
 
-function Navbar() {
-  const[sidebar, setSidebar] = useState (false);
+const Navbar = () => {
+  const [sidebar, setSidebar] = useState(false);
+  const [currentDate, setCurrentDate] = useState(new Date());
 
-  const showSideBar = () => setSidebar(!sidebar);
+  const showSidebar = () => {
+    setSidebar(!sidebar);
+  };
+
+  useEffect(() => {
+    const interval = setInterval(() => {
+      setCurrentDate(new Date());
+    }, 1000); // Update every 1000ms (1 second)
+
+    return () => clearInterval(interval);
+  }, []);
+
   return (
-    <>
-    <section clas = "layout">
-          <IconContext.Provider value={{color: '#fff'}}>
-      <div className="navbar" >
-        <Link to='#' className='menu-bars'>
-          <FaIcons.FaBars onClick ={showSideBar} />
-        </Link>
-      </div>
+    <div className="navbar">
+      <Link to="#" className="menu-bars">
+        <FaIcons.FaBars onClick={showSidebar} />
+      </Link>
+      <span className="current-date">{currentDate.toLocaleString()}</span>
       <nav className={sidebar ? 'nav-menu active' : 'nav-menu'}>
-        <ul className='nav-menu-items' onClick={showSideBar}>
+        <ul className="nav-menu-items" onClick={showSidebar}>
           <li className="navbar-toggle">
             <Link to="#" className="menu-bars">
-              <AiIcons.AiOutlineClose />
+              <FaIcons.FaTimes />
             </Link>
           </li>
-          {SidebarData.map((item,index) => {
-            return (
-              <li key={index} className={item.cName}>
-                <Link to={item.path}>
-                  {item.icon}
-                  <span>{item.title}</span>
-                </Link>
-              </li>
-            )
-          })}
-          
+          {SidebarData.map((item, index) => (
+            <li key={index} className={item.cName}>
+              <Link to={item.path}>
+                {item.icon}
+                <span>{item.title}</span>
+              </Link>
+            </li>
+          ))}
         </ul>
       </nav>
-      </IconContext.Provider>
-      </section>
-    </>
-  )
-}
+    </div>
+  );
+};
 
-export default Navbar
+export default Navbar;
