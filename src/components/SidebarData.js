@@ -37,13 +37,13 @@ export const SidebarData = [
     {
         title: 'Settings',
         path: '/settings',
-        icon:<FaIcons.FaEnvelopeOpenText />,
+        icon:<IoIcons.IoIosSettings />,
         cName: 'nav-text'
     },
     {
         title: 'Logout',
         path: '/logout',
-        icon:<IoIcons.IoMdHelpCircle />,
+        icon:<IoIcons.IoIosLogOut />,
         cName: 'nav-text'
     },
 ]
